@@ -6,7 +6,8 @@ the repo root (`DEC:publish-repo-root`). Entry point: `web/index.html`. Talks to
 
 ## Key Files
 - `index.html` — page shell: form, result breakdown, 12-month table, sources
-- `app.js` — amount parsing (TR `50.000,50` and EN `50,000.50`), rendering, TR/EN switch (~130 LOC)
+- `app.js` — rendering, TR/EN switch (~115 LOC)
+- `parse.js` — shared `parseAmount` (TR `243.795,48` / EN `243,795.48`), used by every page; tested in `rules/tests/web-parse.test.mjs`
 - `i18n.js` — all TR/EN strings
 - `style.css` — light/dark, responsive down to 320 px; tab bar `.tabs.top-nav`; table rules scoped per page
 - `memur.html` / `memur.js` — civil-servant page: current month (Kasım 2026) + January 2027 estimate with CPI

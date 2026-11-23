@@ -1,5 +1,6 @@
 import { calcMemurMonth, titleRule, raiseFactor, projectPeriod } from "../rules/memur.js";
 import { STRINGS, fill } from "./i18n.js";
+import { parseAmount as num } from "./parse.js";
 
 const $ = (id) => document.getElementById(id);
 const url = (p) => new URL(p, import.meta.url);
@@ -14,13 +15,6 @@ const t = () => STRINGS[lang];
 const m = () => STRINGS[lang].m;
 const money = (x) => new Intl.NumberFormat(t().locale, { style: "currency", currency: "TRY" }).format(x);
 const pct = (x, d = 2) => new Intl.NumberFormat(t().locale, { minimumFractionDigits: d, maximumFractionDigits: d }).format(x * 100);
-const num = (s) => {
-  const v = String(s ?? "").trim().replace(/\s|₺|TL/gi, "");
-  if (!v) return NaN;
-  const n = v.includes(",") ? v.replace(/\./g, "").replace(",", ".") : v;
-  return /^-?\d+(\.\d+)?$/.test(n) ? Number(n) : NaN;
-};
-
 function fillSelect(sel, items, keep) {
   const cur = keep ?? sel.value;
   sel.innerHTML = items.map(([v, label]) => `<option value="${v}">${label}</option>`).join("");
@@ -67,6 +61,23 @@ function readPerson() {
   };
 }
 
+/**
+ * Monthly CPI % for the six months of the current period, in calendar order: the official
+ * figure when cpi.json has it, otherwise the scenario input for that month (Nov/Dec only).
+ */
+function periodCpi() {
+  const [y, m0] = D.period.effectiveFrom.split("-").map(Number);
+  const scenario = { 11: $("cpiNov").value, 12: $("cpiDec").value };
+  return Array.from({ length: 6 }, (_, i) => {
+    const mo = m0 + i;
+    const key = `${y}-${String(mo).padStart(2, "0")}`;
+    if (D.cpi.monthly[key]) return D.cpi.monthly[key].pct;
+    if (!(mo in scenario)) throw new Error(`CPI ${key} missing in rules/tr/cpi.json`);
+    const v = Number(scenario[mo]); // type="number" input: value is always "." decimal, may be negative
+    return Number.isFinite(v) ? v : 0;
+  });
+}
+
 function render() {
   const ms = m();
   $("error").hidden = true;
@@ -83,8 +94,7 @@ function render() {
     const now = calcMemurMonth(D.period, D.taxYear, rule, { ...person, month: CURRENT_MONTH, priorTaxBase: prior });
 
     // January 2027: Jul–Dec CPI (official + scenario), new period, tax year restarts.
-    const months = [...Object.values(D.cpi.monthly).map((x) => x.pct), Number($("cpiNov").value) || 0, Number($("cpiDec").value) || 0];
-    const r = raiseFactor(months.slice(0, 6), 0.07, 0.05);
+    const r = raiseFactor(periodCpi(), 0.07, 0.05);
     const p27 = projectPeriod(D.period, r.factor, "2027-H1 (tahmin)");
     p27.indicators = D.period.indicators;
     const jan = calcMemurMonth(p27, D.taxYear, rule, { ...person, month: 1, priorTaxBase: 0 });
