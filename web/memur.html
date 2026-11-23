@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memur Maaşı Hesaplayıcı</title>
+  <meta name="description" content="Memur maaşı ve Ocak 2027 zam tahmini / Civil-servant salary and January 2027 raise estimate">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f6b5c%27/%3E%3Ctext x=%2716%27 y=%2723%27 font-size=%2720%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E%E2%82%BA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="memur.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1 id="h1">Memur Maaşı Hesaplayıcı</h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
+    <button type="button" id="lang" class="lang"></button>
+  </header>
+  <nav class="tabs top-nav" aria-label="Hesaplayıcılar">
+    <a href="./" id="navPrivate">Özel sektör</a>
+    <a href="memur.html" id="navMemur" aria-current="page">Memur</a>
+  </nav>
+
+  <main>
+    <form id="form" class="card grid-form" novalidate>
+      <div class="field span2"><label for="title" data-m="title_"></label><select id="title"></select></div>
+      <div class="field"><label for="derece" data-m="derece"></label><select id="derece"></select></div>
+      <div class="field"><label for="kademe" data-m="kademe"></label><select id="kademe"></select></div>
+      <div class="field"><label for="years" data-m="years"></label><input id="years" type="number" min="0" max="45" step="1" value="19" inputmode="numeric"></div>
+      <div class="field"><label for="law" data-m="law"></label>
+        <select id="law"><option value="5434" data-m="law5434"></option><option value="5510" data-m="law5510" disabled></option></select></div>
+      <div class="field"><label for="married" data-m="married"></label>
+        <select id="married"><option value="0" data-m="single"></option><option value="1" data-m="marriedOpt"></option></select></div>
+      <div class="field check" id="spouseField" hidden><label><input id="spouseWorks" type="checkbox" checked> <span data-m="spouseWorks"></span></label></div>
+      <div class="field"><label for="childOver6" data-m="childOver6"></label><input id="childOver6" type="number" min="0" max="10" value="0" inputmode="numeric"></div>
+      <div class="field"><label for="childUnder6" data-m="childUnder6"></label><input id="childUnder6" type="number" min="0" max="10" value="0" inputmode="numeric"></div>
+      <div class="field"><label for="union" data-m="union"></label><input id="union" inputmode="decimal" value="0"></div>
+      <div class="field span2"><label for="prior" data-m="prior"></label><input id="prior" inputmode="decimal" placeholder="">
+        <small class="hint" data-m="priorHint"></small></div>
+      <fieldset class="span2 scenario">
+        <legend data-m="scenario"></legend>
+        <p class="hint" id="cpiKnown"></p>
+        <div class="two">
+          <div class="field"><label for="cpiNov" data-m="cpiNov"></label><input id="cpiNov" type="number" step="0.1" min="-5" max="15" value="0.8" inputmode="decimal"></div>
+          <div class="field"><label for="cpiDec" data-m="cpiDec"></label><input id="cpiDec" type="number" step="0.1" min="-5" max="15" value="0.8" inputmode="decimal"></div>
+        </div>
+      </fieldset>
+      <button type="submit" class="span2" data-m="calculate"></button>
+      <p id="error" class="error span2" role="alert" hidden></p>
+    </form>
+
+    <section id="out" hidden>
+      <div class="pair">
+        <div class="card result">
+          <p class="net-label" id="nowTitle"></p>
+          <p class="net-value" id="nowNet"></p>
+        </div>
+        <div class="card result">
+          <p class="net-label" id="janTitle"></p>
+          <p class="net-value" id="janNet"></p>
+          <p class="delta" id="janDelta"></p>
+        </div>
+      </div>
+      <div class="card">
+        <dl id="raise" class="breakdown"></dl>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th></th><th class="num" id="colNow"></th><th class="num" id="colJan"></th></tr></thead>
+            <tbody id="lines"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="notes">
+      <p data-m="notes"></p>
+      <details>
+        <summary id="sourcesLabel">Kaynaklar</summary>
+        <ul id="sources"></ul>
+      </details>
+    </footer>
+  </main>
+</body>
+</html>

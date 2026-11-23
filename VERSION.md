@@ -12,3 +12,4 @@ this file is a chronological record of significant changes, not a build-counter 
 | 2026-11-23 | rules: TR 2026 parameter file, integer-kuruş calculation core, 7 known-answer tests. |
 | 2026-11-23 | web: bilingual TR/EN UI; root redirect; GitHub Pages from repo root. |
 | 2026-11-23 | rules: civil-servant (memur) engine, 2026-H2 parameters, CPI file, Jan-2027 raise projection; reproduces a real payslip. |
+| 2026-11-23 | web: civil-servant page with January 2027 raise scenario; tab bar between calculators. |

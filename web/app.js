@@ -39,6 +39,8 @@ function applyStrings() {
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = s[el.dataset.i18n]; });
   $("subtitle").textContent = fill(s.subtitle, { year: params.year });
   $("lang").textContent = s.langSwitch;
+  $("navPrivate").textContent = s.navPrivate;
+  $("navMemur").textContent = s.navMemur;
   const sel = $("month"), cur = sel.value || String(new Date().getMonth() + 1);
   sel.innerHTML = s.months.map((m, i) => `<option value="${i + 1}">${m}</option>`).join("");
   sel.value = cur;

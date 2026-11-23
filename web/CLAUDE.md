@@ -8,7 +8,10 @@ the repo root (`DEC:publish-repo-root`). Entry point: `web/index.html`. Talks to
 - `index.html` — page shell: form, result breakdown, 12-month table, sources
 - `app.js` — amount parsing (TR `50.000,50` and EN `50,000.50`), rendering, TR/EN switch (~130 LOC)
 - `i18n.js` — all TR/EN strings
-- `style.css` — light/dark, responsive down to 320 px
+- `style.css` — light/dark, responsive down to 320 px; tab bar `.tabs.top-nav`; table rules scoped per page
+- `memur.html` / `memur.js` — civil-servant page: current month (Kasım 2026) + January 2027 estimate with CPI
+  scenario inputs; lists only titles/dereceler present in `rules/tr/memur/titles.json`
+- Pages: one per calculator type, linked by the shared tab bar (`DEC:one-page-per-calculator`)
 
 ## Architecture Notes
 - Never hardcode a statutory number (rate, bracket, ceiling, minimum wage) in this component — read it from `rules/`.

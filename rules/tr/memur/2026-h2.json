@@ -10,6 +10,11 @@
     "sidePayment": 0.499649,
     "source": "Hazine ve Maliye Bakanlığı 1 Temmuz–31 Aralık 2026 mali ve sosyal haklar genelgesi (657 s.K. md. 154): aylık katsayı 1,575512; taban aylık katsayısı 25,794915; yan ödeme katsayısı 0,499649"
   },
+  "previousPeriod": {
+    "period": "2026-H1",
+    "monthly": 1.387871,
+    "source": "Hazine ve Maliye Bakanlığı 1 Ocak–30 Haziran 2026 genelgesi (aylık katsayı 1,387871). Used only to estimate the Jan–Jun taxable base when the payslip figure is not entered."
+  },
   "indicators": {
     "baseSalary": 1000,
     "seniorityPerYear": 20,

@@ -58,3 +58,14 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - Tests 13/13 (6 new memur tests). Payslip lines exact; pension/GV exact; DV & net within 0,01.
 - Capture gate: "only payslip-verified titles offered" → operator said NO; official tables are an acceptable source
   for adding titles. Not recorded as a decision.
+
+## 2026-11-23 — Memur page live
+- web/memur.html + memur.js; tab bar on both pages; i18n `m.*` strings TR/EN. 2026-H1 aylık katsayı moved into
+  rules/tr/memur/2026-h2.json `previousPeriod` (UI must not hardcode statutory numbers).
+- Playwright with the payslip profile: Kasım net 84.987,62 (payslip 84.987,61; known DV ±0,01), Jan-27 estimate
+  91.775,03 at Nov/Dec 0,8% each (6-month 10,02%, catch-up 2,83%, raise 7,97%). Non-working spouse → clear "not
+  verified yet" message. First pass: a global narrow-screen rule from the private page hid the memur table's Kasım
+  column — scoped to #year; tab bar alignment fixed. 0 overflow at 1280/360/320, 0 console errors.
+- DEC:one-page-per-calculator (operator-approved). Site LIVE on GitHub Pages since 2026-11-23 (operator enabled).
+- Scheduled sessions created: 2026-12-03 10:41 (Nov CPI) and 2027-01-05 10:43 (Dec CPI, Jan-27 raise, 2027-H1
+  genelge, TR 2027 params) — each must ask before commit and write a field-trial note.
