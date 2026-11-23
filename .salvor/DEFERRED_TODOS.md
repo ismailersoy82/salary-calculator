@@ -15,6 +15,16 @@ were found in. Captured here so they don't slip into "I'll remember." Severity r
 - **Why deferred**: <why it was safe to skip now>
 -->
 
+### deferred:memur-stamp-tax-rounding — memur stamp tax off by 0,01 TL
+- **Subject**: memur, stamp-tax, rounding
+- **Where**: memur calculation (to be built under `rules/`); evidence in `DL:memur-payslip-reconstruction-2026-11`
+- **What**: one-pass 0,759% on the taxable earnings total gives 453,83; the payslip shows 453,84. Twelve different
+  two-group roundings reproduce 453,84, so one payslip cannot identify the KBS grouping.
+- **Severity**: Low
+- **Suggested fix**: collect a second anonymised KBS payslip (different title/amounts) and pick the grouping that
+  matches both; until then assert stamp tax within ±0,01 in tests.
+- **Why deferred**: needs more evidence, not more code.
+
 ## How this file is maintained
 1. When you fix one: delete its entry, and reference the stable slug ID in the fixing commit (`closes deferred:<slug>`).
 2. When you discover a NEW out-of-scope risk during related work: prompt me (RULES §7), and if I agree, add it here —

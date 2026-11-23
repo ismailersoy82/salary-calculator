@@ -36,3 +36,25 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
   1280/360/320; first pass found a broken desktop form grid and a 320 px table clipping — both fixed and re-verified;
   favicon 404 removed.
 - Deployment: repo root on Pages, root index.html redirects to web/ — DEC:publish-repo-root (operator-approved).
+
+## 2026-11-23 — Civil-servant (memur) scope + first real payslip
+- Operator scope: memur 9/1, VHKİ, şef, öğretmen, hemşire, polis memuru, zabıt katibi; inputs derece/kademe, hizmet
+  yılı, mezuniyet, medeni durum/çocuk, branş; Jan 2027 projection from CPI.
+- Web research: secondary calculators disagree for 9/1 (66.997 / 67.638 / 72.796 / 73.070 net); best breakdown found
+  had a 976,82 TL unexplained gap → not used as oracle.
+- Operator supplied an anonymised KBS payslip (Nov 2026, zabıt katibi 1/2, 5434). Reproduced every line except stamp
+  tax (0,01) → DL:memur-payslip-reconstruction-2026-11; deferred:memur-stamp-tax-rounding (both operator-approved).
+  Spouse works → aile yardımı 0 (operator-confirmed). Payslip image NOT stored (barcode/QR verification codes visible —
+  operator warned).
+- CPI so far: Jul–Oct 2026 cumulative 8,28% → excess over 7% ≈ 1,20%; Nov due early Dec, Dec due ~5 Jan 2027.
+
+## 2026-11-23 — Memur engine
+- rules/memur.js: integer kuruş; coefficient lines via indicator × coef(1e6) half-up; ÖHT/ek ödeme = rate × rounded
+  EDMA; 5434 pension base incl. title-specific EDMA share; GV base per DL; DV ±0,01 (deferred). raiseFactor =
+  (1+new) × max(1, cumCPI/(1+prevAgreed)); projectPeriod scales K/T/Y with 6-dp rounding.
+- Data: rules/tr/memur/2026-h2.json (coefficients, 43/A gösterge table, indicators; spouse allowance null — sources
+  disagree 1500 vs 2273; ilave ödeme 15965 and TS ikramiye 707 derived from the payslip, rule unverified),
+  titles.json (zabıt katibi derece 1 only), rules/tr/cpi.json (Jul 1,78 · Aug 1,84 · Sep 1,84 · Oct 2,58; Nov/Dec pending).
+- Tests 13/13 (6 new memur tests). Payslip lines exact; pension/GV exact; DV & net within 0,01.
+- Capture gate: "only payslip-verified titles offered" → operator said NO; official tables are an acceptable source
+  for adding titles. Not recorded as a decision.

@@ -1,0 +1,55 @@
+{
+  "country": "TR",
+  "scheme": "memur-657",
+  "period": "2026-H2",
+  "effectiveFrom": "2026-07-01",
+  "effectiveTo": "2026-12-31",
+  "coefficients": {
+    "monthly": 1.575512,
+    "base": 25.794915,
+    "sidePayment": 0.499649,
+    "source": "Hazine ve Maliye Bakanlığı 1 Temmuz–31 Aralık 2026 mali ve sosyal haklar genelgesi (657 s.K. md. 154): aylık katsayı 1,575512; taban aylık katsayısı 25,794915; yan ödeme katsayısı 0,499649"
+  },
+  "indicators": {
+    "baseSalary": 1000,
+    "seniorityPerYear": 20,
+    "seniorityMaxYears": 25,
+    "highestCivilServantSalary": 9500,
+    "childOver6": 250,
+    "childUnder6": 500,
+    "spouseAllowance": null,
+    "spouseAllowanceNote": "Unverified (sources disagree: 1500 vs 2273). Not used until confirmed by a payslip with aile yardımı.",
+    "additionalPayment": 15965,
+    "additionalPaymentNote": "İlave ödeme (375 KHK md. 40). Derived: payslip 25.153,05 = 15.965 × aylık katsayı; legal basis of the indicator not yet confirmed.",
+    "collectiveBonus": 707,
+    "collectiveBonusNote": "Toplu sözleşme ikramiyesi as shown monthly on a Nov-2026 KBS payslip (1.113,89 = 707 × aylık katsayı). Rule and payment months unverified.",
+    "source": "657 s.K. md. 43/A gösterge tablosu; md. 212 kıdem aylığı (20/yıl, 25 yıl tavan); çocuk yardımı 250 (0–6 yaş 500)"
+  },
+  "salaryScale": {
+    "1": [1320, 1380, 1440, 1500],
+    "2": [1155, 1210, 1265, 1320, 1380, 1440],
+    "3": [1020, 1065, 1110, 1155, 1210, 1265, 1320, 1380],
+    "4": [915, 950, 985, 1020, 1065, 1110, 1155, 1210, 1265],
+    "5": [835, 865, 895, 915, 950, 985, 1020, 1065, 1110],
+    "6": [760, 785, 810, 835, 865, 895, 915, 950, 985],
+    "7": [705, 720, 740, 760, 785, 810, 835, 865, 895],
+    "8": [660, 675, 690, 705, 720, 740, 760, 785, 810],
+    "9": [620, 630, 645, 660, 675, 690, 705, 720, 740],
+    "10": [590, 600, 610, 620, 630, 645, 660, 675, 690],
+    "11": [560, 570, 580, 590, 600, 610, 620, 630, 645],
+    "12": [545, 550, 555, 560, 570, 580, 590, 600, 610],
+    "13": [530, 535, 540, 545, 550, 555, 560, 570, 580],
+    "14": [515, 520, 525, 530, 535, 540, 545, 550, 555],
+    "15": [500, 505, 510, 515, 520, 525, 530, 535, 540],
+    "source": "657 s.K. md. 43/A aylık gösterge tablosu"
+  },
+  "pension5434": {
+    "employeeRate": 0.16,
+    "employerRate": 0.20,
+    "employerGssRate": 0.12,
+    "note": "Verified on one payslip (DL:memur-payslip-reconstruction-2026-11). Base = gösterge + ek gösterge + kıdem + taban + title-specific share × EDMA."
+  },
+  "pension5510": null,
+  "stampTaxRate": 0.00759,
+  "taxYear": "../2026.json"
+}

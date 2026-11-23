@@ -1,0 +1,14 @@
+{
+  "series": "TÜİK TÜFE (2025=100), aylık değişim %",
+  "monthly": {
+    "2026-07": { "pct": 1.78, "source": "TÜİK, 03.08.2026" },
+    "2026-08": { "pct": 1.84, "source": "TÜİK, 03.09.2026" },
+    "2026-09": { "pct": 1.84, "source": "TÜİK, 05.10.2026" },
+    "2026-10": { "pct": 2.58, "source": "TÜİK, 03.11.2026 (Temmuz–Ekim kümülatif %8,28)" }
+  },
+  "pending": {
+    "2026-11": "TÜİK, ~03.12.2026",
+    "2026-12": "TÜİK, ~05.01.2027"
+  },
+  "note": "Update by adding the official monthly figure and removing it from `pending`. Scenario values for missing months are UI inputs, never stored here."
+}

@@ -5,10 +5,10 @@ const round2 = (x) => Math.round((x + Number.EPSILON) * 100) / 100;
 
 // Money is handled in integer kuruş and rates as integers per 100,000 so that
 // half-kuruş results (e.g. 28,075.50 × 15% = 4,211.325) round the same way payroll does.
-const toKurus = (tl) => Math.round(tl * 100);
+export const toKurus = (tl) => Math.round(tl * 100);
 const rateInt = (r) => Math.round(r * 100000);
-const mulRate = (kurus, r) => Math.round((kurus * rateInt(r)) / 100000); // → kuruş
-const fromKurus = (k) => k / 100;
+export const mulRate = (kurus, r) => Math.round((kurus * rateInt(r)) / 100000); // → kuruş
+export const fromKurus = (k) => k / 100;
 
 /** Income tax due on `base` added on top of `cumBefore` (both TL), rounded to the kuruş. */
 export function incrementalTax(cumBefore, base, brackets) {

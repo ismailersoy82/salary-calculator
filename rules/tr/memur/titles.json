@@ -1,0 +1,17 @@
+{
+  "zabit-katibi": {
+    "name": { "tr": "Zabıt kâtibi (GİH)", "en": "Court clerk (general administration)" },
+    "status": "verified-one-payslip",
+    "byDerece": {
+      "1": {
+        "extraIndicator": 2800,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 1.10,
+        "supplementaryPaymentRate": 1.10,
+        "pensionSpecialServiceShare": 0.85,
+        "evidence": "DL:memur-payslip-reconstruction-2026-11 (1/2, Nov 2026)"
+      }
+    },
+    "note": "Only derece 1 is verified. Other dereceler need their ek gösterge / yan ödeme / ÖHT values before they are offered."
+  }
+}

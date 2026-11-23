@@ -20,6 +20,21 @@ Status: live (2026 params). Model: employee paid the same monthly gross since Ja
 Out of scope (for now): incentives, part-month/mid-year starts, prior-employer cumulative base, AGİ (abolished 2022),
 qualified-service-personnel exemption (334 Seri No.lu GV Genel Tebliği, 04.07.2026).
 
+### Turkey civil-servant (memur) payroll — in research
+Status: live for one verified profile (GİH zabıt katibi 1/2, ek gösterge 2800, 5434) — see
+`DL:memur-payslip-reconstruction-2026-11`. Coefficients change every 1 Jan / 1 Jul (2026 H2: K 1,575512, T 25,794915,
+Y 0,499649; EDMA = 9.500 × K).
+- Earnings: gösterge×K, ek gösterge×K, 1000×T, hizmet yılı×20×K, yan ödeme puanı×Y, ÖHT oranı×EDMA, ek ödeme
+  (666 KHK) oranı×EDMA, ilave ödeme (fixed), aile yardımı (0 if spouse works), çocuk yardımı 250×K (>6 yaş).
+- Income-tax base: gösterge + ek gösterge + taban + kıdem + yan ödeme − kesenek (kişi) − sendika aidatı; cumulative
+  ücret tariff; MW exemption capped at the computed tax. ÖHT, ek ödeme, ilave ödeme are not in the base.
+- 5434 (entered before 01.10.2008): kesenek base = gösterge + ek g. + kıdem + taban + %85×EDMA (profile-specific);
+  kişi %16, devlet %20, GSS devlet %12 (devlet shares are added to earnings and deducted again).
+- Stamp tax: 0,759% on earnings excl. devlet kesenek/GSS lines and çocuk yardımı, minus 250,70 — 0,01 open
+  (`deferred:memur-stamp-tax-rounding`).
+- Raise rule (8. Dönem Toplu Sözleşme): Jan 2027 = 5% plus the excess of Jul–Dec 2026 CPI over 7%; Jul 2027 = 4% plus
+  excess of Jan–Jun 2027 CPI over 5%.
+
 ### Sources
 Every parameter file carries its official source per block. Known-answer test values come from official monthly
 amounts or hand derivations, never from press totals (`DL:official-monthly-exemptions-over-press-totals`).

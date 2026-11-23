@@ -7,6 +7,11 @@ JavaScript functions that turn a gross salary into net pay using those parameter
 - `tr/2026.json` — Turkey 2026 parameters with per-block sources
 - `calc.js` — pure gross→net functions: `calcMonth`, `calcYear`, `incrementalTax`, `cumulativeTax` (~100 LOC)
 - `tests/tr-2026.test.mjs` — known-answer tests (official monthly amounts / hand derivations only)
+- `memur.js` — civil-servant payroll (`calcMemurMonth`, 5434 only), `raiseFactor`, `projectPeriod`
+- `tr/memur/2026-h2.json` — memur coefficients, 43/A gösterge table, indicators (unverified ones are null/flagged)
+- `tr/memur/titles.json` — per-title, per-derece ek gösterge / yan ödeme / ÖHT / ek ödeme / pension EDMA share
+- `tr/cpi.json` — official monthly CPI only; scenarios are UI inputs, never stored
+- `tests/tr-memur.test.mjs` — reproduces an anonymised real Nov-2026 payslip
 
 ## Architecture Notes
 - Every parameter carries its official source and effective date; a new year is a new file, never an in-place edit of
