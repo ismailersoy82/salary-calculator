@@ -10,7 +10,8 @@ JavaScript functions that turn a gross salary into net pay using those parameter
 - `memur.js` — civil-servant payroll (`calcMemurMonth`, 5434/5510), `ruleFromPayslip` (`DEC:payslip-mode`), `raiseFactor`, `projectPeriod`
 - `tr/memur/2026-h2.json` — memur coefficients, 43/A gösterge table, indicators (unverified ones are null/flagged)
 - `tr/memur/titles.json` — per-title, per-derece ek gösterge / yan ödeme / ÖHT / ek ödeme / pension EDMA share;
-  `status` = verified-one-payslip | estimate (estimates must cite `source`; null pension share → 5434 refused)
+  per-derece `status` (verified-other | estimate), optional `locations` (bigCity/other → regional allowance, ÖHT add);
+  every title cites `source`; null pension share → 5434 refused
 - `tr/cpi.json` — official monthly CPI only; scenarios are UI inputs, never stored
 - `tests/tr-memur.test.mjs` — reproduces an anonymised real Nov-2026 payslip
 

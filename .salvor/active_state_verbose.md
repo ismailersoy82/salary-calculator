@@ -110,3 +110,15 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - Our memur-adalet net (77.570,93) vs memurlar.net (77.092,01) reconciles via il adalet (−), BES (+) and the monthly
   TS ikramiye (+, which memurlar.net omits).
 - DL:memurlar-net-adalet-model (operator-approved).
+
+## 2026-11-23 — All dereceler + duty location (reconcile exercised)
+- Operator: "derece only 1 is useless — collect them". Calibrated rules/memur.js against a published zabıt katibi
+  career table (12 nets, İst/Ank/İzm, 5510, BES 3%, no ikramiye): every step reproduced within 0,01, which pinned
+  ek gösterge + ÖHT per derece (one solution each; 3/1 alternative 3600/80% rejected by source text).
+- Same source: il adalet 15% only in İst/Ank/İzm → explains the operator's taşra payslip (ÖHT 110 = 100+10, no line).
+  titles.json now has `locations` (bigCity / other); engine adds `lines.regional` (in 5510 prime base and stamp base,
+  not in GV base); 5434 refused with a regional line or unknown share. UI: "Görev yeri" select, dereceler 1–15
+  (şef 1–4), per-derece estimate warning, title sources listed on the page.
+- Salvor §10.2 merge gate used for the first time: new DL:adalet-rates-by-derece-and-city supersedes
+  DL:memurlar-net-adalet-model (operator: yes). Old artifact kept as a redirect stub; index row marked SUPERSEDED-BY.
+- Tests 19/19 (career table, taşra verified rule, memurlar.net big-city bases incl. GV base 26.528,05).

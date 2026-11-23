@@ -30,7 +30,8 @@ function fillSelect(sel, items, keep) {
 function populate() {
   fillSelect($("title"), Object.entries(D.titles).map(([id, tt]) => [id, tt.name[lang] + (tt.status === "estimate" ? ` (${m().estimated})` : "")]));
   const tt = D.titles[$("title").value];
-  fillSelect($("derece"), Object.keys(tt.byDerece).map((d) => [d, d]));
+  fillSelect($("derece"), Object.keys(tt.byDerece).map((d) => [d, d]), $("derece").value || 1);
+  $("locField").hidden = !tt.locations;
   const row = D.period.salaryScale[$("derece").value];
   fillSelect($("kademe"), row.map((g, i) => [i + 1, `${i + 1} (${g})`]), $("kademe").value || 2);
 }
@@ -66,7 +67,7 @@ function applyStrings() {
   const known = Object.values(D.cpi.monthly).map((x) => x.pct);
   $("cpiKnown").textContent = fill(ms.cpiKnown, { cum: pct(raiseFactor(known, 0, 0).cumulativeInflation) });
   $("sources").innerHTML = "";
-  for (const line of [D.period.coefficients.source, D.period.salaryScale.source, D.taxYear.incomeTax.source, D.cpi.series + " — " + Object.values(D.cpi.monthly).map((x) => x.source).join("; ")]) {
+  for (const line of [...Object.values(D.titles).map((tt) => `${tt.name[lang]}: ${tt.source}`), D.period.coefficients.source, D.period.salaryScale.source, D.taxYear.incomeTax.source, D.cpi.series + " — " + Object.values(D.cpi.monthly).map((x) => x.source).join("; ")]) {
     const li = document.createElement("li"); li.textContent = line; $("sources").append(li);
   }
   populate();
@@ -103,10 +104,10 @@ function render() {
       warnings.push(...built.checks);
     } else {
       person = readPerson();
-      rule = titleRule(D.titles, $("title").value, person.derece);
+      rule = titleRule(D.titles, $("title").value, person.derece, $("loc").value);
       priorInput = num($("prior").value);
       if (person.pensionLaw === "5510") warnings.push("taxBaseUnverified");
-      if (D.titles[$("title").value].status === "estimate") warnings.push("presetEstimate");
+      if (rule.status !== "verified-other" || $("loc").value !== "other") warnings.push("presetEstimate");
     }
 
     // Current month: if the payslip's prior cumulative base is not given, estimate it (Jan–Jun at the H1 coefficient ratio).
@@ -138,7 +139,7 @@ function render() {
 
     $("colNow").textContent = `${t().months[month - 1].slice(0, 3)} 2026`;
     $("colJan").textContent = `${t().months[0].slice(0, 3)} 2027`;
-    const keys = ["salary", "extraIndicator", "base", "seniority", "sidePayment", "specialService", "supplementary", "additional", "collectiveBonus", "children", "spouse"];
+    const keys = ["salary", "extraIndicator", "base", "seniority", "sidePayment", "specialService", "supplementary", "regional", "additional", "collectiveBonus", "children", "spouse"];
     const rows = keys.filter((k) => now.lines[k] || jan.lines[k]).map((k) => [ms[k], now.lines[k], jan.lines[k], ""]);
     const sum = (o) => Object.values(o.lines).reduce((a, b) => a + b, 0);
     rows.push([ms.earnings, sum(now), sum(jan), "total"]);
@@ -172,7 +173,7 @@ async function init() {
   toggleSpouse();
   $("title").addEventListener("change", () => {
     populate();
-    if (D.titles[$("title").value].status === "estimate") $("law").value = "5510"; // 5434 share unknown for estimates
+    if (D.titles[$("title").value].byDerece[$("derece").value]?.pensionSpecialServiceShare == null) $("law").value = "5510"; // 5434 share unknown
     render();
   });
   $("derece").addEventListener("change", () => { populate(); render(); });

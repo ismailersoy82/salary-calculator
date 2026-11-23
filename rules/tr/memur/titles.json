@@ -1,21 +1,145 @@
 {
   "zabit-katibi": {
     "name": {
-      "tr": "Zabıt kâtibi (GİH)",
-      "en": "Court clerk (general administration)"
+      "tr": "Zabıt kâtibi (Adalet, yükseköğrenim)",
+      "en": "Court clerk (Justice, higher education)"
     },
-    "status": "verified-one-payslip",
+    "status": "estimate",
+    "source": "Derece 1–15 (yükseköğrenim/önlisans): saffetcelik.com.tr 'Zabıt Katibi Maaşı 2026' kariyer tablosundaki 12 net tutar bu oranlarla kuruşu kuruşuna (±0,01) yeniden üretildi (İst/Ank/İzm, 5510, BES %3, ikramiye hariç). Lise mezunlarında 1–4. derece ek göstergesi farklıdır (3. derece 1400).",
+    "locations": {
+      "bigCity": {
+        "regionalAllowanceRate": 0.15,
+        "specialServiceAdd": 0
+      },
+      "other": {
+        "regionalAllowanceRate": 0,
+        "specialServiceAdd": 0.1
+      },
+      "note": "Adalet: 'İl Adalet Hizmetleri Tazminatı' %15 yalnızca İstanbul, Ankara, İzmir'de (saffetcelik.com.tr zabıt katibi 2026). Diğer illerde bu satır yok ve ÖHT +10 puan (Hakem Kurulu 2025/1 md. 65 ile uyumlu); bu yalnızca bir taşra bordrosunda (zabıt katibi d1) doğrulandı."
+    },
     "byDerece": {
       "1": {
         "extraIndicator": 2800,
         "sidePaymentPoints": 1300,
-        "specialServiceRate": 1.1,
+        "specialServiceRate": 1.0,
         "supplementaryPaymentRate": 1.1,
         "pensionSpecialServiceShare": 0.85,
-        "evidence": "DL:memur-payslip-reconstruction-2026-11 (1/2, Nov 2026)"
+        "status": "verified-other",
+        "evidence": "DL:memur-payslip-reconstruction-2026-11 (taşra, 1/2): ÖHT 100+10, no il adalet"
+      },
+      "2": {
+        "extraIndicator": 2200,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 1.0,
+        "supplementaryPaymentRate": 1.1,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "3": {
+        "extraIndicator": 1700,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 1.0,
+        "supplementaryPaymentRate": 1.0,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "4": {
+        "extraIndicator": 1400,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.75,
+        "supplementaryPaymentRate": 1.0,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "5": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.63,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "6": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.63,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "7": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.63,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "8": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.63,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "9": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.63,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "10": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "11": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "12": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "13": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "14": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "15": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 1300,
+        "specialServiceRate": 0.61,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
       }
-    },
-    "note": "Only derece 1 is verified. Other dereceler need their ek gösterge / yan ödeme / ÖHT values before they are offered."
+    }
   },
   "memur-adalet": {
     "name": {
@@ -23,7 +147,18 @@
       "en": "Clerk (Ministry of Justice)"
     },
     "status": "estimate",
-    "source": "memurlar.net maaş robotu, Adalet Bakanlığı, 1. derece (incelendi 2026-11-23). 'İl Adalet Hizmetleri Tazminatı %15' satırı operatör kararıyla dahil edilmedi (gerçek taşra bordrosunda yok). 5434 emeklilik matrahı payı bilinmiyor → yalnızca 5510.",
+    "source": "memurlar.net Adalet memur 1/1 (yan ödeme 500, ÖHT %56, ek ödeme %110). Ek gösterge 1–4. derece GİH yükseköğrenim tablosu (2800/2200/1700/1400, zabıt katibi kalibrasyonuyla aynı); ek ödeme derece grupları 110/100/90/85 (375 KHK Ek-9 tabloları, ikinci el). ÖHT'nin derece ile değişmediği varsayıldı.",
+    "locations": {
+      "bigCity": {
+        "regionalAllowanceRate": 0.15,
+        "specialServiceAdd": 0
+      },
+      "other": {
+        "regionalAllowanceRate": 0,
+        "specialServiceAdd": 0.1
+      },
+      "note": "Adalet: 'İl Adalet Hizmetleri Tazminatı' %15 yalnızca İstanbul, Ankara, İzmir'de (saffetcelik.com.tr zabıt katibi 2026). Diğer illerde bu satır yok ve ÖHT +10 puan (Hakem Kurulu 2025/1 md. 65 ile uyumlu); bu yalnızca bir taşra bordrosunda (zabıt katibi d1) doğrulandı."
+    },
     "byDerece": {
       "1": {
         "extraIndicator": 2800,
@@ -31,7 +166,119 @@
         "specialServiceRate": 0.56,
         "supplementaryPaymentRate": 1.1,
         "pensionSpecialServiceShare": null,
-        "evidence": "memurlar.net /maas/memur/ (2 yıllık yüksek öğrenim, 1/1)"
+        "status": "estimate"
+      },
+      "2": {
+        "extraIndicator": 2200,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 1.1,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "3": {
+        "extraIndicator": 1700,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 1.0,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "4": {
+        "extraIndicator": 1400,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 1.0,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "5": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "6": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "7": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.9,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "8": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "9": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "10": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "11": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "12": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "13": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "14": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "15": {
+        "extraIndicator": 0,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 0.85,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
       }
     }
   },
@@ -41,7 +288,18 @@
       "en": "Section chief (Ministry of Justice)"
     },
     "status": "estimate",
-    "source": "memurlar.net maaş robotu, Adalet Bakanlığı, 1. derece (incelendi 2026-11-23). 'İl Adalet Hizmetleri Tazminatı %15' satırı operatör kararıyla dahil edilmedi (gerçek taşra bordrosunda yok). 5434 emeklilik matrahı payı bilinmiyor → yalnızca 5510.",
+    "source": "memurlar.net Adalet şef 1/1 (yan ödeme 1150, ÖHT %132, ek ödeme %115). Ek ödeme 3–4. derecede %105 (ikinci el tablo). ÖHT'nin 1–4. derecede sabit olduğu varsayıldı; şef kadrosu 1–4. dereceyle sınırlandı.",
+    "locations": {
+      "bigCity": {
+        "regionalAllowanceRate": 0.15,
+        "specialServiceAdd": 0
+      },
+      "other": {
+        "regionalAllowanceRate": 0,
+        "specialServiceAdd": 0.1
+      },
+      "note": "Adalet: 'İl Adalet Hizmetleri Tazminatı' %15 yalnızca İstanbul, Ankara, İzmir'de (saffetcelik.com.tr zabıt katibi 2026). Diğer illerde bu satır yok ve ÖHT +10 puan (Hakem Kurulu 2025/1 md. 65 ile uyumlu); bu yalnızca bir taşra bordrosunda (zabıt katibi d1) doğrulandı."
+    },
     "byDerece": {
       "1": {
         "extraIndicator": 2800,
@@ -49,7 +307,31 @@
         "specialServiceRate": 1.32,
         "supplementaryPaymentRate": 1.15,
         "pensionSpecialServiceShare": null,
-        "evidence": "memurlar.net /maas/sef/ (1/1)"
+        "status": "estimate"
+      },
+      "2": {
+        "extraIndicator": 2200,
+        "sidePaymentPoints": 1150,
+        "specialServiceRate": 1.32,
+        "supplementaryPaymentRate": 1.15,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "3": {
+        "extraIndicator": 1700,
+        "sidePaymentPoints": 1150,
+        "specialServiceRate": 1.32,
+        "supplementaryPaymentRate": 1.05,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
+      },
+      "4": {
+        "extraIndicator": 1400,
+        "sidePaymentPoints": 1150,
+        "specialServiceRate": 1.32,
+        "supplementaryPaymentRate": 1.05,
+        "pensionSpecialServiceShare": null,
+        "status": "estimate"
       }
     }
   }

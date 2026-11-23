@@ -16,13 +16,26 @@ export function salaryIndicator(period, derece, kademe) {
   return v;
 }
 
-/** Title parameters for a derece, or an error if not verified yet. */
-export function titleRule(titles, titleId, derece) {
+/**
+ * Title parameters for a derece (and duty location, if the title has location variants).
+ * location: "bigCity" (İstanbul/Ankara/İzmir) | "other".
+ */
+export function titleRule(titles, titleId, derece, location = "other") {
   const t = titles[titleId];
   if (!t) throw new RangeError(`unknown title ${titleId}`);
   const r = t.byDerece[String(derece)];
-  if (!r) throw new RangeError(`${titleId}: derece ${derece} not verified yet`);
-  return r;
+  if (!r) throw new RangeError(`${titleId}: derece ${derece} not available`);
+  const loc = t.locations?.[location];
+  if (t.locations && !loc) throw new RangeError(`${titleId}: unknown location ${location}`);
+  if (!loc) return r;
+  const rule = {
+    ...r,
+    specialServiceRate: Math.round((r.specialServiceRate + loc.specialServiceAdd) * 100) / 100,
+    regionalAllowanceRate: loc.regionalAllowanceRate,
+  };
+  // The verified 5434 pension share belongs to the verified location only.
+  if (r.status === "verified-other" && location !== "other") { rule.status = "estimate"; rule.pensionSpecialServiceShare = null; }
+  return rule;
 }
 
 /**
@@ -50,6 +63,7 @@ export function calcMemurMonth(period, taxYear, rule, p) {
   const edma = mulCoef(ind.highestCivilServantSalary, K);
   lines.specialService = mulRate(edma, rule.specialServiceRate);
   lines.supplementary = mulRate(edma, rule.supplementaryPaymentRate);
+  lines.regional = mulRate(edma, rule.regionalAllowanceRate || 0); // e.g. İl Adalet Hizmetleri Tazminatı
   lines.additional = mulCoef(ind.additionalPayment, K);
   lines.collectiveBonus = mulCoef(rule.collectiveBonusIndicator ?? ind.collectiveBonus, K);
   lines.children = rule.childIndicator != null
@@ -68,6 +82,7 @@ export function calcMemurMonth(period, taxYear, rule, p) {
   let pensionBase, pensionEmployee, gssEmployee = 0, pensionEmployer = 0, gssEmployer = 0;
   if (p.pensionLaw === "5434") {
     if (rule.pensionSpecialServiceShare == null) throw new RangeError("5434 pension base share not verified for this title");
+    if (lines.regional) throw new RangeError("5434 pension base share not verified for this title (regional allowance)");
     const pen = period.pension5434;
     pensionBase = lines.salary + lines.extraIndicator + lines.seniority + lines.base + mulRate(edma, rule.pensionSpecialServiceShare);
     pensionEmployee = mulRate(pensionBase, pen.employeeRate);
@@ -75,7 +90,7 @@ export function calcMemurMonth(period, taxYear, rule, p) {
     gssEmployer = mulRate(pensionBase, pen.employerGssRate);
   } else {
     const pen = period.pension5510;
-    pensionBase = lines.salary + lines.extraIndicator + lines.base + lines.seniority + lines.specialService;
+    pensionBase = lines.salary + lines.extraIndicator + lines.base + lines.seniority + lines.specialService + lines.regional;
     pensionEmployee = mulRate(pensionBase, pen.employeeRate);
     gssEmployee = mulRate(pensionBase, pen.employeeGssRate);
     if (pen.employerRate != null) pensionEmployer = mulRate(pensionBase, pen.employerRate);

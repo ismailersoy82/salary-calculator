@@ -20,7 +20,7 @@ const m = calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), 
 test("payslip earnings lines match to the kuruş", () => {
   assert.deepEqual(m.lines, {
     salary: 2174.21, extraIndicator: 4411.43, base: 25794.92, seniority: 598.69, sidePayment: 649.54,
-    specialService: 16464.1, supplementary: 16464.1, additional: 25153.05, collectiveBonus: 1113.89,
+    specialService: 16464.1, supplementary: 16464.1, regional: 0, additional: 25153.05, collectiveBonus: 1113.89,
     children: 393.88, spouse: 0,
   });
   assert.deepEqual(m.employerLines, { pensionEmployer: 9140.3, gssEmployer: 5484.18 });
@@ -44,7 +44,8 @@ test("gösterge table and unverified inputs are guarded", () => {
   assert.equal(salaryIndicator(period, 9, 1), 620);
   assert.equal(salaryIndicator(period, 1, 4), 1500);
   assert.throws(() => salaryIndicator(period, 1, 5), RangeError);
-  assert.throws(() => titleRule(titles, "zabit-katibi", 9), /not verified/);
+  assert.throws(() => titleRule(titles, "zabit-katibi", 16), /not available/);
+  assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 9), person), /not verified/); // 5434 share unknown below d1
   assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), { ...person, pensionLaw: "4/b" }), /5434 or 5510/);
   assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), { ...person, spouseWorks: false }), /spouse allowance/);
 });
@@ -114,13 +115,38 @@ test("5510 contribution base = gösterge + ek g. + taban + kıdem + ÖHT (9% / 5
   assert.equal(r.gssEmployee, 1757.67);
 });
 
-test("estimate titles: 5510 works, 5434 refuses (pension share unknown)", () => {
-  const rule = titleRule(titles, "memur-adalet", 1);
+test("estimate titles: big-city Adalet memur matches memurlar.net bases; 5434 refused", () => {
+  const rule = titleRule(titles, "memur-adalet", 1, "bigCity");
   assert.equal(titles["memur-adalet"].status, "estimate");
   const p5510 = { derece: 1, kademe: 1, serviceYears: 0, pensionLaw: "5510", married: false, unionDues: 0, month: 11, priorTaxBase: 0 };
   const r = calcMemurMonth(period, taxYear, rule, p5510);
-  // memurlar.net 1/1 Adalet memur without the il adalet line: MYÖ base = 2.079,68 + 4.411,43 + 25.794,92 + 8.381,72
-  assert.equal(r.pensionBase, 40667.75);
+  // memurlar.net 1/1 Adalet memur: MYÖ base incl. il adalet 2.245,10 = 42.912,85 → MYÖ 3.862,16 / GSS 2.145,64; GV base 26.528,05
+  assert.equal(r.lines.regional, 2245.1);
+  assert.equal(r.pensionBase, 42912.85);
+  assert.equal(r.pensionEmployee, 3862.16);
+  assert.equal(r.gssEmployee, 2145.64);
+  assert.equal(r.taxBase, 26528.05);
   assert.equal(r.lines.sidePayment, 249.82);
   assert.throws(() => calcMemurMonth(period, taxYear, rule, { ...p5510, pensionLaw: "5434" }), /not verified/);
+});
+
+test("zabıt katibi career table: 12 published nets (İst/Ank/İzm, 5510, BES 3%, no bonus) reproduced", () => {
+  // saffetcelik.com.tr "Zabıt Katibi Maaşı 2026" (Jul–Dec 2026, bekâr, first salary of the year).
+  const rows = [[9,1,0,70102.15],[8,1,3,70231.44],[7,1,6,71110.15],[6,1,9,71259.58],[5,1,12,71434.88],[4,1,15,76392.43],
+    [3,1,18,80072.50],[2,1,21,82458.28],[1,1,24,83527.22],[1,4,27,83785.82],[10,2,0,69830.11],[13,3,0,69752.54]];
+  for (const [d, k, y, expected] of rows) {
+    const rule = { ...titleRule(titles, "zabit-katibi", d, "bigCity"), collectiveBonusIndicator: 0 };
+    const r = calcMemurMonth(period, taxYear, rule, { derece: d, kademe: k, serviceYears: y, pensionLaw: "5510", married: false, unionDues: 0, month: 7, priorTaxBase: 0 });
+    const bes = Math.floor(r.pensionBase * 0.03); // BES: 3% of the prime base, whole TL
+    const got = Math.round((r.net - bes) * 100) / 100;
+    assert.ok(Math.round(Math.abs(got - expected) * 100) <= 1, `${d}/${k}: ${got} vs ${expected}`); // ±0,01: deferred:memur-stamp-tax-rounding
+  }
+});
+
+test("taşra zabıt katibi d1 = verified payslip rule (ÖHT 100 + 10, no il adalet)", () => {
+  const r = titleRule(titles, "zabit-katibi", 1, "other");
+  assert.equal(r.specialServiceRate, 1.1);
+  assert.equal(r.regionalAllowanceRate, 0);
+  assert.equal(r.pensionSpecialServiceShare, 0.85);
+  assert.equal(titleRule(titles, "zabit-katibi", 1, "bigCity").pensionSpecialServiceShare, null);
 });
