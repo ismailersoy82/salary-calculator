@@ -45,7 +45,7 @@ test("gösterge table and unverified inputs are guarded", () => {
   assert.equal(salaryIndicator(period, 1, 4), 1500);
   assert.throws(() => salaryIndicator(period, 1, 5), RangeError);
   assert.throws(() => titleRule(titles, "zabit-katibi", 9), /not verified/);
-  assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), { ...person, pensionLaw: "5510" }), /5434/);
+  assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), { ...person, pensionLaw: "4/b" }), /5434 or 5510/);
   assert.throws(() => calcMemurMonth(period, taxYear, titleRule(titles, "zabit-katibi", 1), { ...person, spouseWorks: false }), /spouse allowance/);
 });
 
@@ -62,4 +62,54 @@ test("projection scales coefficients and leaves the original untouched", () => {
   assert.equal(p2.coefficients.monthly, Math.round(1.575512 * 1.079 * 1e6) / 1e6);
   assert.equal(period.coefficients.monthly, 1.575512);
   assert.equal(p2.projected, true);
+});
+
+import { ruleFromPayslip } from "../memur.js";
+
+// The operator's payslip, as printed (KBS line names in comments).
+const slip5434 = {
+  derece: 1, kademe: 2, serviceYears: 19, month: 11,
+  extraIndicator: 4411.43,   // Ek Gösterge
+  sidePayment: 649.54,       // Yan Ödeme
+  specialService: 16464.1,   // Özel Hizmet Tazminatı
+  supplementary: 16464.1,    // Ek Öde.(666 KHK)
+  spouse: 0, children: 393.88, collectiveBonus: 1113.89,
+  pensionEmployee: 7312.24,  // Emekli Keseneği (Kişi)
+  gssEmployee: 0,            // Gen.Sağ.Sig.Pir.(Kişi)
+  unionDues: 464.12, taxBase: 25852.43, priorTaxBase: 243795.48,
+};
+
+test("payslip mode: derives the same rule from printed amounts and reproduces the payslip", () => {
+  const { rule, person, checks } = ruleFromPayslip(period, slip5434);
+  assert.deepEqual(checks, []);
+  assert.equal(person.pensionLaw, "5434");
+  assert.equal(rule.extraIndicator, 2800);
+  assert.equal(rule.sidePaymentPoints, 1300);
+  assert.equal(rule.specialServiceRate, 1.1);
+  assert.equal(rule.supplementaryPaymentRate, 1.1);
+  assert.equal(rule.pensionSpecialServiceShare, 0.85);
+  const r = calcMemurMonth(period, taxYear, rule, person);
+  assert.ok(Math.abs(r.net - 84987.61) <= 0.01, `net ${r.net}`);
+  assert.equal(r.lines.children, 393.88);
+});
+
+test("payslip mode: a printed amount that does not reconcile is reported, not hidden", () => {
+  const { checks } = ruleFromPayslip(period, { ...slip5434, pensionEmployee: 7400 });
+  assert.ok(checks.includes("pensionEmployee"));
+});
+
+test("5510 contribution base = gösterge + ek g. + taban + kıdem + ÖHT (9% / 5%)", () => {
+  // 9/1, 0 years, ÖHT 56%, ek ödeme 85%, 500 yan ödeme points — contributions as published for this profile
+  // (MYÖ 3.163,81 / GSS 1.757,67); tax base not verified for 5510 → flagged.
+  const { rule, person, checks } = ruleFromPayslip(period, {
+    derece: 9, kademe: 1, serviceYears: 0, month: 7, extraIndicator: 0, sidePayment: 249.82,
+    specialService: 8381.72, supplementary: 12722.26, spouse: 0, children: 0, collectiveBonus: 0,
+    pensionEmployee: 3163.81, gssEmployee: 1757.67, unionDues: 0,
+  });
+  assert.equal(person.pensionLaw, "5510");
+  assert.deepEqual(checks, ["taxBaseUnverified"]);
+  const r = calcMemurMonth(period, taxYear, rule, person);
+  assert.equal(r.pensionBase, 35153.46);
+  assert.equal(r.pensionEmployee, 3163.81);
+  assert.equal(r.gssEmployee, 1757.67);
 });

@@ -32,6 +32,9 @@ Y 0,499649; EDMA = 9.500 × K).
   kişi %16, devlet %20, GSS devlet %12 (devlet shares are added to earnings and deducted again).
 - Stamp tax: 0,759% on earnings excl. devlet kesenek/GSS lines and çocuk yardımı, minus 250,70 — 0,01 open
   (`deferred:memur-stamp-tax-rounding`).
+- 5510 (entered from 01.10.2008): base = gösterge + ek g. + taban + kıdem + ÖHT; employee MYÖ 9% + GSS 5%
+  (employer 12% + 7,5%, display only). Tax-base treatment of employee GSS: calibrated per payslip (`DEC:payslip-mode`).
+- Payslip mode: any title/institution via `ruleFromPayslip` (`DEC:payslip-mode`).
 - Raise rule (8. Dönem Toplu Sözleşme): Jan 2027 = 5% plus the excess of Jul–Dec 2026 CPI over 7%; Jul 2027 = 4% plus
   excess of Jan–Jun 2027 CPI over 5%.
 
@@ -52,3 +55,10 @@ contradictory `Status: live` entries — resolve per RULES §10.4.]
 - Fix sites: `rules/calc.js` (`toKurus`, `rateInt`, `mulRate`, `incrementalTax`). Guard: all 12 monthly exemption
   values asserted in `rules/tests/tr-2026.test.mjs`.
 - Artifact: [domain-learnings/2026-11-23-LF-float-half-kurus-rounding.md](domain-learnings/2026-11-23-LF-float-half-kurus-rounding.md)
+
+### LF:css-display-overrides-hidden (2026-11-23)
+- **Subject:** web, css, hidden · **Claim:** author `display:` rules override the `hidden` attribute ·
+  **Evidence date:** 2026-11-23 · **Status:** live
+- Root cause: UA `[hidden]` has lower precedence than author CSS. Fix site: `web/style.css` (`[hidden]{display:none!important}`).
+  Guard: screenshot/`is_hidden` checks for toggled sections.
+- Artifact: [domain-learnings/2026-11-23-LF-css-display-overrides-hidden.md](domain-learnings/2026-11-23-LF-css-display-overrides-hidden.md)

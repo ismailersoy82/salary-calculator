@@ -54,7 +54,14 @@
     "employerGssRate": 0.12,
     "note": "Verified on one payslip (DL:memur-payslip-reconstruction-2026-11). Base = gösterge + ek gösterge + kıdem + taban + title-specific share × EDMA."
   },
-  "pension5510": null,
+  "pension5510": {
+    "employeeRate": 0.09,
+    "employeeGssRate": 0.05,
+    "employerRate": 0.12,
+    "employerGssRate": 0.075,
+    "note": "5510 md. 80 prime base for 4/c: gösterge + ek gösterge + taban + kıdem + ÖHT (ek ödeme, ilave ödeme, yan ödeme excluded). md. 81: MYÖ employee 9%, employer 12% (SGK 4/c page, 2026: total 21%); GSS employee 5%, employer 7,5%. Employer shares are display-only. Not yet checked against a real 5510 payslip; income-tax treatment of the GSS share is calibrated from the payslip's Aylık Vergi Matrahı when entered.",
+    "source": "5510 s.K. md. 80–81 (mevzuat.gov.tr); SGK 4/c prim oranları sayfası (12.01.2026)"
+  },
   "stampTaxRate": 0.00759,
   "taxYear": "../2026.json"
 }

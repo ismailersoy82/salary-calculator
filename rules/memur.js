@@ -30,11 +30,14 @@ export function titleRule(titles, titleId, derece) {
  * @param {object} period  rules/tr/memur/<period>.json (coefficients may be pre-scaled by projectPeriod)
  * @param {object} taxYear rules/tr/<year>.json (tariff, minimum wage exemption)
  * @param {object} rule    title rule for the person's derece (titleRule)
- * @param {object} p       person: { derece, kademe, serviceYears, pensionLaw: "5434", married, spouseWorks, childrenOver6,
- *                         childrenUnder6, unionDues (TL), month (1–12), priorTaxBase (TL, cumulative before this month) }
+ * @param {object} p       person: { derece, kademe, serviceYears, pensionLaw: "5434" | "5510", married, spouseWorks,
+ *                         childrenOver6, childrenUnder6, unionDues (TL), month (1–12), priorTaxBase (TL, cumulative before) }
+ * A rule built by ruleFromPayslip may also carry indicator overrides: spouseIndicator, childIndicator,
+ * collectiveBonusIndicator, and taxDeductsGss (5510: whether the employee GSS share is deducted from the tax base).
  */
 export function calcMemurMonth(period, taxYear, rule, p) {
-  if (p.pensionLaw !== "5434") throw new RangeError("only 5434 (entered before 01.10.2008) is verified so far");
+  if (p.pensionLaw !== "5434" && p.pensionLaw !== "5510") throw new RangeError("pension law must be 5434 or 5510");
+  if (p.pensionLaw === "5510" && !period.pension5510) throw new RangeError("5510 rates missing for this period");
   const c = period.coefficients, ind = period.indicators;
   const K = c.monthly;
 
@@ -48,23 +51,41 @@ export function calcMemurMonth(period, taxYear, rule, p) {
   lines.specialService = mulRate(edma, rule.specialServiceRate);
   lines.supplementary = mulRate(edma, rule.supplementaryPaymentRate);
   lines.additional = mulCoef(ind.additionalPayment, K);
-  lines.collectiveBonus = mulCoef(ind.collectiveBonus, K);
-  lines.children = mulCoef(ind.childOver6, K) * (p.childrenOver6 || 0) + mulCoef(ind.childUnder6, K) * (p.childrenUnder6 || 0);
-  if (p.married && !p.spouseWorks) {
+  lines.collectiveBonus = mulCoef(rule.collectiveBonusIndicator ?? ind.collectiveBonus, K);
+  lines.children = rule.childIndicator != null
+    ? mulCoef(rule.childIndicator, K)
+    : mulCoef(ind.childOver6, K) * (p.childrenOver6 || 0) + mulCoef(ind.childUnder6, K) * (p.childrenUnder6 || 0);
+  if (rule.spouseIndicator != null) {
+    lines.spouse = mulCoef(rule.spouseIndicator, K);
+  } else if (p.married && !p.spouseWorks) {
     if (ind.spouseAllowance == null) throw new RangeError("spouse allowance not verified yet");
     lines.spouse = mulCoef(ind.spouseAllowance, K);
   } else lines.spouse = 0;
 
-  // 5434 pension contributions
-  const pen = period.pension5434;
-  const pensionBase = lines.salary + lines.extraIndicator + lines.seniority + lines.base + mulRate(edma, rule.pensionSpecialServiceShare);
-  const pensionEmployee = mulRate(pensionBase, pen.employeeRate);
-  const pensionEmployer = mulRate(pensionBase, pen.employerRate);
-  const gssEmployer = mulRate(pensionBase, pen.employerGssRate);
+  // Pension contributions.
+  // 5434: base = gösterge + ek g. + kıdem + taban + title share × EDMA; employee 16%, employer 20% + GSS 12%.
+  // 5510 (4/c, md. 80–81): base = gösterge + ek g. + taban + kıdem + ÖHT; employee MYÖ 9% + GSS 5%.
+  let pensionBase, pensionEmployee, gssEmployee = 0, pensionEmployer = 0, gssEmployer = 0;
+  if (p.pensionLaw === "5434") {
+    const pen = period.pension5434;
+    pensionBase = lines.salary + lines.extraIndicator + lines.seniority + lines.base + mulRate(edma, rule.pensionSpecialServiceShare);
+    pensionEmployee = mulRate(pensionBase, pen.employeeRate);
+    pensionEmployer = mulRate(pensionBase, pen.employerRate);
+    gssEmployer = mulRate(pensionBase, pen.employerGssRate);
+  } else {
+    const pen = period.pension5510;
+    pensionBase = lines.salary + lines.extraIndicator + lines.base + lines.seniority + lines.specialService;
+    pensionEmployee = mulRate(pensionBase, pen.employeeRate);
+    gssEmployee = mulRate(pensionBase, pen.employeeGssRate);
+    if (pen.employerRate != null) pensionEmployer = mulRate(pensionBase, pen.employerRate);
+    if (pen.employerGssRate != null) gssEmployer = mulRate(pensionBase, pen.employerGssRate);
+  }
   const unionDues = toKurus(p.unionDues || 0);
 
   // Income tax: base excludes ÖHT, ek ödeme, ilave ödeme, family/child, bonus.
-  const taxBase = lines.salary + lines.extraIndicator + lines.base + lines.seniority + lines.sidePayment - pensionEmployee - unionDues;
+  const taxDeductsGss = rule.taxDeductsGss ?? true;
+  const taxBase = lines.salary + lines.extraIndicator + lines.base + lines.seniority + lines.sidePayment
+    - pensionEmployee - (taxDeductsGss ? gssEmployee : 0) - unionDues;
   const brackets = taxYear.incomeTax.wageBrackets;
   const incomeTaxGross = toKurus(incrementalTax(p.priorTaxBase || 0, fromKurus(taxBase), brackets));
   const mw = toKurus(taxYear.minimumWage.monthlyGross), ss = taxYear.socialSecurity;
@@ -81,7 +102,7 @@ export function calcMemurMonth(period, taxYear, rule, p) {
   const stampTax = stampTaxGross - stampTaxExemption;
 
   const earnings = Object.values(lines).reduce((a, b) => a + b, 0);
-  const net = earnings - pensionEmployee - incomeTax - stampTax - unionDues;
+  const net = earnings - pensionEmployee - gssEmployee - incomeTax - stampTax - unionDues;
 
   const tl = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fromKurus(v)]));
   return {
@@ -89,7 +110,9 @@ export function calcMemurMonth(period, taxYear, rule, p) {
     employerLines: tl({ pensionEmployer, gssEmployer }),
     grossPayslip: fromKurus(earnings + pensionEmployer + gssEmployer), // "Gelir Toplamı" on KBS payslips
     pensionBase: fromKurus(pensionBase),
+    pensionLaw: p.pensionLaw,
     pensionEmployee: fromKurus(pensionEmployee),
+    gssEmployee: fromKurus(gssEmployee),
     unionDues: fromKurus(unionDues),
     taxBase: fromKurus(taxBase),
     cumulativeTaxBase: fromKurus(toKurus(p.priorTaxBase || 0) + taxBase),
@@ -126,3 +149,59 @@ export function projectPeriod(period, factor, label) {
     coefficients: { ...c, monthly: r6(c.monthly * factor), base: r6(c.base * factor), sidePayment: r6(c.sidePayment * factor), source: `projection ×${factor.toFixed(6)} from ${period.period}` },
   };
 }
+
+/**
+ * Build a rule + person from the amounts printed on one KBS payslip, so any title/institution can be projected.
+ * The payslip must belong to `period` (same coefficients). Amounts are TL as printed.
+ * @param {object} slip { derece, kademe, serviceYears, month, extraIndicator, sidePayment, specialService, supplementary,
+ *   spouse, children, collectiveBonus, pensionEmployee, gssEmployee, unionDues, taxBase?, priorTaxBase? }
+ * @returns {{ rule, person, checks: string[] }}  checks lists derivations that did not reconcile with the payslip.
+ */
+export function ruleFromPayslip(period, slip) {
+  const c = period.coefficients, ind = period.indicators, K = c.monthly;
+  const edma = fromKurus(mulCoef(ind.highestCivilServantSalary, K));
+  const pts = (tl, coef) => Math.round(tl / coef);
+  const rate = (tl) => Math.round((tl / edma) * 100) / 100; // tariff rates are whole percents
+  const pensionLaw = (slip.gssEmployee || 0) > 0 ? "5510" : "5434";
+  const rule = {
+    extraIndicator: pts(slip.extraIndicator || 0, K),
+    sidePaymentPoints: pts(slip.sidePayment || 0, c.sidePayment),
+    specialServiceRate: rate(slip.specialService || 0),
+    supplementaryPaymentRate: rate(slip.supplementary || 0),
+    spouseIndicator: pts(slip.spouse || 0, K),
+    childIndicator: pts(slip.children || 0, K),
+    collectiveBonusIndicator: pts(slip.collectiveBonus || 0, K),
+    source: "payslip",
+  };
+  const person = {
+    derece: slip.derece, kademe: slip.kademe, serviceYears: slip.serviceYears, pensionLaw,
+    unionDues: slip.unionDues || 0, month: slip.month, priorTaxBase: slip.priorTaxBase || 0,
+  };
+  const checks = [];
+  if (pensionLaw === "5434") {
+    // Back out the title share × EDMA that enters the 5434 base.
+    const known = fromKurus(mulCoef(salaryIndicator(period, slip.derece, slip.kademe), K) + mulCoef(rule.extraIndicator, K)
+      + mulCoef(ind.seniorityPerYear * Math.min(slip.serviceYears, ind.seniorityMaxYears), K) + mulCoef(ind.baseSalary, c.base));
+    rule.pensionSpecialServiceShare = Math.round(((slip.pensionEmployee / period.pension5434.employeeRate - known) / edma) * 100) / 100;
+  }
+  // Reconcile: recompute and compare with what the payslip printed.
+  const m = calcMemurMonth(period, { ...TAX_PLACEHOLDER }, rule, person, true);
+  if (Math.abs(m.pensionEmployee - (slip.pensionEmployee || 0)) > 0.01) checks.push("pensionEmployee");
+  if (pensionLaw === "5510" && Math.abs(m.gssEmployee - slip.gssEmployee) > 0.01) checks.push("gssEmployee");
+  if (slip.taxBase != null) {
+    if (Math.abs(m.taxBase - slip.taxBase) > 0.01) {
+      // 5510: try the other GSS treatment before giving up.
+      const alt = calcMemurMonth(period, { ...TAX_PLACEHOLDER }, { ...rule, taxDeductsGss: !(rule.taxDeductsGss ?? true) }, person, true);
+      if (pensionLaw === "5510" && Math.abs(alt.taxBase - slip.taxBase) <= 0.01) rule.taxDeductsGss = !(rule.taxDeductsGss ?? true);
+      else checks.push("taxBase");
+    }
+  } else if (pensionLaw === "5510") checks.push("taxBaseUnverified");
+  return { rule, person, checks };
+}
+
+// Tax figures are irrelevant to the reconciliation above (only bases and contributions are compared).
+const TAX_PLACEHOLDER = {
+  incomeTax: { wageBrackets: [{ upTo: null, rate: 0 }] },
+  minimumWage: { monthlyGross: 0 },
+  socialSecurity: { employeeSgkRate: 0, employeeUnemploymentRate: 0 },
+};

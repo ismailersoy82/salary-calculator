@@ -14,6 +14,7 @@
   :root { --bg: #141615; --card: #1d201f; --ink: #ecebe7; --muted: #a2a6a3; --line: #2e3230; --accent: #4fb7a3; --accent-ink: #0b1513; --error: #f97066; }
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
   font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -112,3 +113,11 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
 }
 #lines td:first-child { white-space: normal; min-width: 0; }
 @media (max-width: 559px) { #lines, #lines + * { font-size: 0.84rem; } #lines td { padding: 7px 4px; } }
+.sub { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 4px; }
+.seg label { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 10px; border-radius: 9px; font-weight: 600; cursor: pointer; text-align: center; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { background: var(--accent); color: var(--accent-ink); }
+.seg label:has(input:focus-visible) { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+.warn { margin: 0; padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, #d97706 14%, transparent); color: var(--ink); font-size: 0.9rem; }
+@media (max-width: 359px) { .sub { grid-template-columns: 1fr; } }

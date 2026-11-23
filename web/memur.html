@@ -24,12 +24,36 @@
 
   <main>
     <form id="form" class="card grid-form" novalidate>
+      <div class="seg span2" role="radiogroup">
+        <label><input type="radio" name="mode" value="ready" checked> <span data-m="modeReady"></span></label>
+        <label><input type="radio" name="mode" value="slip"> <span data-m="modeSlip"></span></label>
+      </div>
+      <div id="slipFields" class="span2 sub" hidden>
+        <p class="hint span2" data-m="slipIntro"></p>
+        <div class="field"><label for="sMonth" data-m="sMonth"></label><select id="sMonth"></select></div>
+        <div class="field"><label for="sYears" data-m="years"></label><input id="sYears" type="number" min="0" max="45" value="0" inputmode="numeric"></div>
+        <div class="field"><label for="sDerece" data-m="derece"></label><select id="sDerece"></select></div>
+        <div class="field"><label for="sKademe" data-m="kademe"></label><select id="sKademe"></select></div>
+        <div class="field"><label for="s_extraIndicator" data-m="k_extraIndicator"></label><input id="s_extraIndicator" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_sidePayment" data-m="k_sidePayment"></label><input id="s_sidePayment" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_specialService" data-m="k_specialService"></label><input id="s_specialService" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_supplementary" data-m="k_supplementary"></label><input id="s_supplementary" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_spouse" data-m="k_spouse"></label><input id="s_spouse" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_children" data-m="k_children"></label><input id="s_children" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_collectiveBonus" data-m="k_collectiveBonus"></label><input id="s_collectiveBonus" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_unionDues" data-m="k_unionDues"></label><input id="s_unionDues" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_pensionEmployee" data-m="k_pensionEmployee"></label><input id="s_pensionEmployee" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_gssEmployee" data-m="k_gssEmployee"></label><input id="s_gssEmployee" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><label for="s_taxBase" data-m="k_taxBase"></label><input id="s_taxBase" inputmode="decimal" placeholder=""></div>
+        <div class="field"><label for="s_priorTaxBase" data-m="k_priorTaxBase"></label><input id="s_priorTaxBase" inputmode="decimal" placeholder=""></div>
+      </div>
+      <div id="readyFields" class="span2 sub">
       <div class="field span2"><label for="title" data-m="title_"></label><select id="title"></select></div>
       <div class="field"><label for="derece" data-m="derece"></label><select id="derece"></select></div>
       <div class="field"><label for="kademe" data-m="kademe"></label><select id="kademe"></select></div>
       <div class="field"><label for="years" data-m="years"></label><input id="years" type="number" min="0" max="45" step="1" value="19" inputmode="numeric"></div>
       <div class="field"><label for="law" data-m="law"></label>
-        <select id="law"><option value="5434" data-m="law5434"></option><option value="5510" data-m="law5510" disabled></option></select></div>
+        <select id="law"><option value="5434" data-m="law5434"></option><option value="5510" data-m="law5510"></option></select></div>
       <div class="field"><label for="married" data-m="married"></label>
         <select id="married"><option value="0" data-m="single"></option><option value="1" data-m="marriedOpt"></option></select></div>
       <div class="field check" id="spouseField" hidden><label><input id="spouseWorks" type="checkbox" checked> <span data-m="spouseWorks"></span></label></div>
@@ -38,6 +62,7 @@
       <div class="field"><label for="union" data-m="union"></label><input id="union" inputmode="decimal" value="0"></div>
       <div class="field span2"><label for="prior" data-m="prior"></label><input id="prior" inputmode="decimal" placeholder="">
         <small class="hint" data-m="priorHint"></small></div>
+      </div>
       <fieldset class="span2 scenario">
         <legend data-m="scenario"></legend>
         <p class="hint" id="cpiKnown"></p>
@@ -48,6 +73,7 @@
       </fieldset>
       <button type="submit" class="span2" data-m="calculate"></button>
       <p id="error" class="error span2" role="alert" hidden></p>
+      <p id="warn" class="warn span2" hidden></p>
     </form>
 
     <section id="out" hidden>

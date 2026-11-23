@@ -69,3 +69,19 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - DEC:one-page-per-calculator (operator-approved). Site LIVE on GitHub Pages since 2026-11-23 (operator enabled).
 - Scheduled sessions created: 2026-12-03 10:41 (Nov CPI) and 2027-01-05 10:43 (Dec CPI, Jan-27 raise, 2027-H1
   genelge, TR 2027 params) — each must ask before commit and write a field-trial note.
+
+## 2026-11-23 — More titles: blocked on institution-level data
+- 5510 (4/c) rules found in official/semi-official sources: MYÖ 9% employee / 11% employer (SGK page now shows 12%
+  employer, 21% total — to confirm), GSS 5% / 7,5%; prime base = gösterge + ek gösterge + taban + kıdem + ÖHT
+  (ek ödeme, ilave ödeme, yan ödeme excluded). Consistent with a secondary 9/1 breakdown (9% and 5% of 35.153,4x).
+  Income-tax treatment for 5510 (both employee shares deductible?) NOT verified — the same secondary breakdown
+  contradicts it.
+- Operator: add memur / VHKİ / şef for Adalet Bakanlığı. → DL:memur-rates-need-institution-and-period
+  (operator-approved).
+- Adalet sources disagree: memurlar.net calculator (current coefficients) gives zabıt katibi ÖHT 100 + ek ödeme 110 +
+  "il adalet hizmetleri tazminatı" 15%; şef 1/1 yan ödeme 1150, ÖHT 132, ek ödeme 115, il adalet 15. The operator's
+  real payslip (zabıt katibi 1/2) shows ÖHT 110 and NO il adalet line. Other calculators give ÖHT 63% / 70%.
+  → Need the operator's unit type (taşra adliye / BAM / Yargıtay / merkez) and colleague payslips before adding titles.
+- Operator unit: il/ilçe (taşra) adliyesi — yet the payslip has NO il adalet hizmetleri tazminatı line and ÖHT 110%.
+  So the memurlar.net Adalet split (ÖHT 100 + il adalet 15) is contradicted by a real taşra payslip → not usable as a
+  source for Adalet titles. Operator gave no commitment on colleague payslips.
