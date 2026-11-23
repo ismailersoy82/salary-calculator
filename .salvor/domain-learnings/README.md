@@ -24,3 +24,5 @@ Categories (extend as needed):
 ## Chronological index
 | Date | ID | File | Category | Subject | One-line takeaway |
 |------|----|------|----------|---------|-------------------|
+| 2026-11-23 | LF:float-half-kurus-rounding | [2026-11-23-LF-float-half-kurus-rounding.md](2026-11-23-LF-float-half-kurus-rounding.md) | LF | rules, calc.js, rounding | Float differences of cumulative tax round half-kuruş down (4,211.32 vs 4,211.33) |
+| 2026-11-23 | DL:official-monthly-exemptions-over-press-totals | [2026-11-23-PROBE-press-totals-unreliable.md](2026-11-23-PROBE-press-totals-unreliable.md) | PROBE | rules, tr-2026, test-data | Press annual total off by 5,000; test oracles come from official monthly amounts |

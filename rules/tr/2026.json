@@ -1,0 +1,49 @@
+{
+  "country": "TR",
+  "year": 2026,
+  "currency": "TRY",
+  "effectiveFrom": "2026-01-01",
+  "effectiveTo": "2026-12-31",
+  "minimumWage": {
+    "monthlyGross": 33030.00,
+    "monthlyNet": 28075.50,
+    "source": "Asgari Ücret Tespit Komisyonu Kararı 2025/1, Resmî Gazete 26.12.2025; günlük brüt 1.101,00 TL, yıl boyu tek dönem"
+  },
+  "socialSecurity": {
+    "employeeSgkRate": 0.14,
+    "employeeUnemploymentRate": 0.01,
+    "employerSgkRate": 0.2175,
+    "employerUnemploymentRate": 0.02,
+    "baseFloorMonthly": 33030.00,
+    "baseCeilingMonthly": 297270.00,
+    "source": "5510 s.K. md. 81-82 (tavan 7566 s.K. ile asgari ücretin 9 katı, 01.01.2026); SGK Genelgesi 2026/2 (07.01.2026). İşveren oranı teşviksiz; 2 ve 5 puanlık teşvikler bu dosyada uygulanmaz."
+  },
+  "incomeTax": {
+    "wageBrackets": [
+      { "upTo": 190000, "rate": 0.15 },
+      { "upTo": 400000, "rate": 0.20 },
+      { "upTo": 1500000, "rate": 0.27 },
+      { "upTo": 5300000, "rate": 0.35 },
+      { "upTo": null, "rate": 0.40 }
+    ],
+    "cumulative": true,
+    "source": "GVK md. 103 ücret tarifesi; 332 Seri No.lu Gelir Vergisi Genel Tebliği, Resmî Gazete 31.12.2025 (5. mükerrer)"
+  },
+  "stampTax": {
+    "rate": 0.00759,
+    "source": "488 s. Damga Vergisi Kanunu (1) sayılı tablo IV-1, binde 7,59"
+  },
+  "minimumWageExemption": {
+    "incomeTax": true,
+    "stampTax": true,
+    "method": "Asgari ücretin aylık GV matrahı üzerinden kümülatif hesaplanan GV ve brüt asgari ücretin damga vergisi kadar istisna (GVK md. 23/18, DVK 2 s. tablo IV-35)",
+    "checkValues": {
+      "incomeTaxByMonth": [4211.33, 4211.33, 4211.33, 4211.33, 4211.33, 4211.33, 4537.75, 5615.10, 5615.10, 5615.10, 5615.10, 5615.10],
+      "stampTaxMonthly": 250.70,
+      "source": "Muhtasar ve prim hizmet beyannamesi istisna tutarları (Ocak 2026: GV 4.211,33 / DV 250,70); aylık dağılım sektör yayınlarıyla çapraz kontrol edildi"
+    }
+  },
+  "notes": [
+    "Nitelikli hizmet personeline ilişkin 334 Seri No.lu GV Genel Tebliği (Resmî Gazete 04.07.2026) özel bir istisnadır; standart çalışan hesabına dahil edilmedi."
+  ]
+}
