@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brüt–Net Maaş Hesaplayıcı</title>
+  <meta name="description" content="Türkiye için brüt–net maaş hesaplayıcı / Gross-to-net salary calculator for Turkey">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f6b5c%27/%3E%3Ctext x=%2716%27 y=%2723%27 font-size=%2720%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E%E2%82%BA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1 data-i18n="title">Brüt–Net Maaş Hesaplayıcı</h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
+    <button type="button" id="lang" class="lang"></button>
+  </header>
+
+  <main>
+    <form id="form" class="card form" novalidate>
+      <div class="field grow">
+        <label for="gross" data-i18n="grossLabel">Aylık brüt maaş (TL)</label>
+        <input id="gross" name="gross" inputmode="decimal" autocomplete="off" required>
+      </div>
+      <div class="field">
+        <label for="month" data-i18n="monthLabel">Ay</label>
+        <select id="month" name="month"></select>
+      </div>
+      <button type="submit" data-i18n="calculate">Hesapla</button>
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+
+    <section id="result" class="card result" aria-live="polite" hidden>
+      <p class="net-label" id="netFor"></p>
+      <p class="net-value" id="netValue"></p>
+      <h2 data-i18n="breakdown">Kesinti dökümü</h2>
+      <dl id="breakdown" class="breakdown"></dl>
+    </section>
+
+    <section id="year" class="card" hidden>
+      <h2 data-i18n="yearTitle">Yıl boyunca aylık net</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-i18n="colMonth">Ay</th>
+            <th data-i18n="colTaxBase" class="num">Kümülatif matrah</th>
+            <th data-i18n="colIncomeTax" class="num">Gelir vergisi</th>
+            <th data-i18n="colNet" class="num">Net</th>
+          </tr></thead>
+          <tbody id="yearBody"></tbody>
+          <tfoot id="yearFoot"></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <footer class="notes">
+      <p data-i18n="assumptions"></p>
+      <details>
+        <summary data-i18n="sources">Kaynaklar</summary>
+        <ul id="sources"></ul>
+      </details>
+    </footer>
+  </main>
+</body>
+</html>

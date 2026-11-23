@@ -27,3 +27,12 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - Rejected oracle: press annual income tax 91,547 for 2× MW; derivation gives 86,548.01 (press used a 52,881 exemption
   total vs official 57,881.23). Captured as DL:official-monthly-exemptions-over-press-totals (operator-approved).
 - Field-trial note: three capture gates fired in the first coding session; asked as three separate questions.
+
+## 2026-11-23 — Bilingual UI + GitHub Pages
+- web/: index.html, app.js, i18n.js, style.css. Form (gross + month) → selected month breakdown (incl. exemptions,
+  employer cost) + 12-month table + totals; TR/EN toggle remembered in localStorage (try/catch); light/dark.
+- Amount parser accepts `66.060`, `50.000,50`, `50,000.50`, `50000`; rejects text; rejects gross < MW with message.
+- Playwright headless Chrome: net for 66,060 in April = 49,958.78 in UI = calcMonth; 0 horizontal overflow at
+  1280/360/320; first pass found a broken desktop form grid and a 320 px table clipping — both fixed and re-verified;
+  favicon 404 removed.
+- Deployment: repo root on Pages, root index.html redirects to web/ — DEC:publish-repo-root (operator-approved).

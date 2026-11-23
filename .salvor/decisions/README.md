@@ -24,3 +24,4 @@ touches an adjacent component that quietly depends on this one.
 | Date | ID | Decision | Subject | Invariant (one-line) | Touches |
 |------|----|----------|---------|----------------------|---------|
 | 2026-11-23 | DEC:integer-kurus-arithmetic | [2026-11-23-integer-kurus-arithmetic.md](2026-11-23-integer-kurus-arithmetic.md) | rules, calc.js, rounding | Money in integer kuruş, rates per 100,000, one half-up rounding per component | rules |
+| 2026-11-23 | DEC:publish-repo-root | [2026-11-23-publish-repo-root.md](2026-11-23-publish-repo-root.md) | web, rules, deployment | Pages serves repo root; web/ imports ../rules/ — never publish web/ alone | web, rules, infra |
