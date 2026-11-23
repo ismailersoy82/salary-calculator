@@ -67,6 +67,7 @@ export function calcMemurMonth(period, taxYear, rule, p) {
   // 5510 (4/c, md. 80–81): base = gösterge + ek g. + taban + kıdem + ÖHT; employee MYÖ 9% + GSS 5%.
   let pensionBase, pensionEmployee, gssEmployee = 0, pensionEmployer = 0, gssEmployer = 0;
   if (p.pensionLaw === "5434") {
+    if (rule.pensionSpecialServiceShare == null) throw new RangeError("5434 pension base share not verified for this title");
     const pen = period.pension5434;
     pensionBase = lines.salary + lines.extraIndicator + lines.seniority + lines.base + mulRate(edma, rule.pensionSpecialServiceShare);
     pensionEmployee = mulRate(pensionBase, pen.employeeRate);

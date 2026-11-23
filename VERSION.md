@@ -14,3 +14,4 @@ this file is a chronological record of significant changes, not a build-counter 
 | 2026-11-23 | rules: civil-servant (memur) engine, 2026-H2 parameters, CPI file, Jan-2027 raise projection; reproduces a real payslip. |
 | 2026-11-23 | web: civil-servant page with January 2027 raise scenario; tab bar between calculators. |
 | 2026-11-23 | rules+web: payslip mode for any civil servant (5434/5510); [hidden] CSS fix. |
+| 2026-11-23 | rules+web: estimate presets for Adalet memur and şef (derece 1, 5510). |

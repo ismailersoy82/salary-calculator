@@ -99,3 +99,14 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - Field-trial note (self-inflicted): the Salvor sync script aborted halfway (a no-op assertion), and the commit
   d668681 went out with L1 updated but L2/VERSION/spokes not. Caught by reading the reloaded L1 (still said
   "5434-only"); fixed in a follow-up commit. Lesson: run the Task Termination checklist after the sync, before commit.
+
+## 2026-11-23 — memurlar.net model study → estimate presets
+- Operator: payslips are hard to get; asked to study memurlar.net. Fetched its Adalet memur / şef / zabıt katibi pages
+  (1/1). Reproduced its printed GV matrahı → it deducts MYÖ 9% + GSS 5% for 5510 (supports taxDeductsGss=true). It
+  adds "İl Adalet Hizmetleri Tazminatı %15" (also in MYÖ base) — absent from the operator's real taşra payslip.
+- Operator: add presets WITHOUT the il adalet line. titles.json: memur-adalet d1 (2800/500/56%/110%), sef-adalet d1
+  (2800/1150/132%/115%), status "estimate", pensionSpecialServiceShare null → engine refuses 5434 for them; UI marks
+  "(tahmini)", auto-switches to 5510, shows a warning pointing to payslip mode. Tests 17/17; Playwright: no errors.
+- Our memur-adalet net (77.570,93) vs memurlar.net (77.092,01) reconciles via il adalet (−), BES (+) and the monthly
+  TS ikramiye (+, which memurlar.net omits).
+- DL:memurlar-net-adalet-model (operator-approved).

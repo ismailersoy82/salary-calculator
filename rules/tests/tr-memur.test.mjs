@@ -113,3 +113,14 @@ test("5510 contribution base = gösterge + ek g. + taban + kıdem + ÖHT (9% / 5
   assert.equal(r.pensionEmployee, 3163.81);
   assert.equal(r.gssEmployee, 1757.67);
 });
+
+test("estimate titles: 5510 works, 5434 refuses (pension share unknown)", () => {
+  const rule = titleRule(titles, "memur-adalet", 1);
+  assert.equal(titles["memur-adalet"].status, "estimate");
+  const p5510 = { derece: 1, kademe: 1, serviceYears: 0, pensionLaw: "5510", married: false, unionDues: 0, month: 11, priorTaxBase: 0 };
+  const r = calcMemurMonth(period, taxYear, rule, p5510);
+  // memurlar.net 1/1 Adalet memur without the il adalet line: MYÖ base = 2.079,68 + 4.411,43 + 25.794,92 + 8.381,72
+  assert.equal(r.pensionBase, 40667.75);
+  assert.equal(r.lines.sidePayment, 249.82);
+  assert.throws(() => calcMemurMonth(period, taxYear, rule, { ...p5510, pensionLaw: "5434" }), /not verified/);
+});

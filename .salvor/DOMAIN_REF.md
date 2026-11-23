@@ -35,6 +35,8 @@ Y 0,499649; EDMA = 9.500 × K).
 - 5510 (entered from 01.10.2008): base = gösterge + ek g. + taban + kıdem + ÖHT; employee MYÖ 9% + GSS 5%
   (employer 12% + 7,5%, display only). Tax-base treatment of employee GSS: calibrated per payslip (`DEC:payslip-mode`).
 - Payslip mode: any title/institution via `ruleFromPayslip` (`DEC:payslip-mode`).
+- Preset titles: zabıt katibi d1 (payslip-verified, 5434+5510); Adalet memur d1 and şef d1 = estimates from memurlar.net
+  without the il adalet line, 5510 only (`DL:memurlar-net-adalet-model`).
 - Raise rule (8. Dönem Toplu Sözleşme): Jan 2027 = 5% plus the excess of Jul–Dec 2026 CPI over 7%; Jul 2027 = 4% plus
   excess of Jan–Jun 2027 CPI over 5%.
 

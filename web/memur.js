@@ -28,7 +28,7 @@ function fillSelect(sel, items, keep) {
 }
 
 function populate() {
-  fillSelect($("title"), Object.entries(D.titles).map(([id, tt]) => [id, tt.name[lang]]));
+  fillSelect($("title"), Object.entries(D.titles).map(([id, tt]) => [id, tt.name[lang] + (tt.status === "estimate" ? ` (${m().estimated})` : "")]));
   const tt = D.titles[$("title").value];
   fillSelect($("derece"), Object.keys(tt.byDerece).map((d) => [d, d]));
   const row = D.period.salaryScale[$("derece").value];
@@ -106,6 +106,7 @@ function render() {
       rule = titleRule(D.titles, $("title").value, person.derece);
       priorInput = num($("prior").value);
       if (person.pensionLaw === "5510") warnings.push("taxBaseUnverified");
+      if (D.titles[$("title").value].status === "estimate") warnings.push("presetEstimate");
     }
 
     // Current month: if the payslip's prior cumulative base is not given, estimate it (Jan–Jun at the H1 coefficient ratio).
@@ -153,7 +154,8 @@ function render() {
     if (warnings.length) { $("warn").textContent = warnings.map((w) => ms["w_" + w]).join(" "); $("warn").hidden = false; }
   } catch (e) {
     $("out").hidden = true;
-    $("error").textContent = /spouse/.test(e.message) ? ms.errSpouse : fill(ms.errGeneric, { msg: e.message });
+    $("error").textContent = /spouse/.test(e.message) ? ms.errSpouse
+      : /5434 pension/.test(e.message) ? ms.err5434 : fill(ms.errGeneric, { msg: e.message });
     $("error").hidden = false;
   }
 }
@@ -168,7 +170,11 @@ async function init() {
   const toggleSpouse = () => { $("spouseField").hidden = $("married").value !== "1"; };
   $("married").addEventListener("change", () => { toggleSpouse(); render(); });
   toggleSpouse();
-  $("title").addEventListener("change", () => { populate(); render(); });
+  $("title").addEventListener("change", () => {
+    populate();
+    if (D.titles[$("title").value].status === "estimate") $("law").value = "5510"; // 5434 share unknown for estimates
+    render();
+  });
   $("derece").addEventListener("change", () => { populate(); render(); });
   $("form").addEventListener("submit", (e) => { e.preventDefault(); render(); });
   $("form").addEventListener("change", (e) => {

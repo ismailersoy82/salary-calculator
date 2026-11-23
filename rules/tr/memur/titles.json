@@ -1,17 +1,56 @@
 {
   "zabit-katibi": {
-    "name": { "tr": "Zabıt kâtibi (GİH)", "en": "Court clerk (general administration)" },
+    "name": {
+      "tr": "Zabıt kâtibi (GİH)",
+      "en": "Court clerk (general administration)"
+    },
     "status": "verified-one-payslip",
     "byDerece": {
       "1": {
         "extraIndicator": 2800,
         "sidePaymentPoints": 1300,
-        "specialServiceRate": 1.10,
-        "supplementaryPaymentRate": 1.10,
+        "specialServiceRate": 1.1,
+        "supplementaryPaymentRate": 1.1,
         "pensionSpecialServiceShare": 0.85,
         "evidence": "DL:memur-payslip-reconstruction-2026-11 (1/2, Nov 2026)"
       }
     },
     "note": "Only derece 1 is verified. Other dereceler need their ek gösterge / yan ödeme / ÖHT values before they are offered."
+  },
+  "memur-adalet": {
+    "name": {
+      "tr": "Memur (Adalet)",
+      "en": "Clerk (Ministry of Justice)"
+    },
+    "status": "estimate",
+    "source": "memurlar.net maaş robotu, Adalet Bakanlığı, 1. derece (incelendi 2026-11-23). 'İl Adalet Hizmetleri Tazminatı %15' satırı operatör kararıyla dahil edilmedi (gerçek taşra bordrosunda yok). 5434 emeklilik matrahı payı bilinmiyor → yalnızca 5510.",
+    "byDerece": {
+      "1": {
+        "extraIndicator": 2800,
+        "sidePaymentPoints": 500,
+        "specialServiceRate": 0.56,
+        "supplementaryPaymentRate": 1.1,
+        "pensionSpecialServiceShare": null,
+        "evidence": "memurlar.net /maas/memur/ (2 yıllık yüksek öğrenim, 1/1)"
+      }
+    }
+  },
+  "sef-adalet": {
+    "name": {
+      "tr": "Şef (Adalet)",
+      "en": "Section chief (Ministry of Justice)"
+    },
+    "status": "estimate",
+    "source": "memurlar.net maaş robotu, Adalet Bakanlığı, 1. derece (incelendi 2026-11-23). 'İl Adalet Hizmetleri Tazminatı %15' satırı operatör kararıyla dahil edilmedi (gerçek taşra bordrosunda yok). 5434 emeklilik matrahı payı bilinmiyor → yalnızca 5510.",
+    "byDerece": {
+      "1": {
+        "extraIndicator": 2800,
+        "sidePaymentPoints": 1150,
+        "specialServiceRate": 1.32,
+        "supplementaryPaymentRate": 1.15,
+        "pensionSpecialServiceShare": null,
+        "evidence": "memurlar.net /maas/sef/ (1/1)"
+      }
+    }
   }
 }
