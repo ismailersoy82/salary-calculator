@@ -9,8 +9,10 @@ the repo root (`DEC:publish-repo-root`). Entry point: `web/index.html`. Talks to
 - `app.js` — amount parsing (TR `50.000,50` and EN `50,000.50`), rendering, TR/EN switch (~130 LOC)
 - `i18n.js` — all TR/EN strings
 - `style.css` — light/dark, responsive down to 320 px; tab bar `.tabs.top-nav`; table rules scoped per page
-- `memur.html` / `memur.js` — civil-servant page: current month (Kasım 2026) + January 2027 estimate with CPI
-  scenario inputs; lists only titles/dereceler present in `rules/tr/memur/titles.json`
+- `memur.html` / `memur.js` — civil-servant page: "Hazır unvan" (titles in `rules/tr/memur/titles.json`) or
+  "Kendi bordromla" (`DEC:payslip-mode`, KBS line names as labels, reconciliation warnings); current month + January
+  2027 estimate with CPI scenario inputs
+- `[hidden]` is forced to `display:none !important` (`LF:css-display-overrides-hidden`)
 - Pages: one per calculator type, linked by the shared tab bar (`DEC:one-page-per-calculator`)
 
 ## Architecture Notes

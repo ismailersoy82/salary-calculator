@@ -85,3 +85,17 @@ Project intent: bilingual TR/EN gross→net salary calculator, Turkey first, sec
 - Operator unit: il/ilçe (taşra) adliyesi — yet the payslip has NO il adalet hizmetleri tazminatı line and ÖHT 110%.
   So the memurlar.net Adalet split (ÖHT 100 + il adalet 15) is contradicted by a real taşra payslip → not usable as a
   source for Adalet titles. Operator gave no commitment on colleague payslips.
+
+## 2026-11-23 — Payslip mode (operator-approved route)
+- Operator chose payslip mode over waiting for colleague payslips. rules/memur.js: calcMemurMonth now 5434|5510;
+  overrides spouse/child/bonus indicators; ruleFromPayslip + reconciliation checks. 2026-h2.json pension5510 added.
+- Tests 16/16: payslip mode reproduces the operator's payslip; mismatching kesenek is reported; 5510 base/MYÖ/GSS
+  match a published 9/1 breakdown (35.153,46 → 3.163,81 / 1.757,67); its net equals ours + BES 1.054.
+- UI: "Hazır unvan" / "Kendi bordromla" segmented control, KBS line names as labels, warnings box. Ready mode now allows
+  5510 with the unverified-tax-base warning.
+- Screenshot caught both fieldsets visible → LF:css-display-overrides-hidden (also explained the "Eşi çalışıyor"
+  checkbox showing for Bekâr since 2eb8e98). Text-only assertions had passed — screenshot review mattered.
+- DEC:payslip-mode, LF:css-display-overrides-hidden (both operator-approved).
+- Field-trial note (self-inflicted): the Salvor sync script aborted halfway (a no-op assertion), and the commit
+  d668681 went out with L1 updated but L2/VERSION/spokes not. Caught by reading the reloaded L1 (still said
+  "5434-only"); fixed in a follow-up commit. Lesson: run the Task Termination checklist after the sync, before commit.
